@@ -13,7 +13,7 @@ class BTree(object):
 		self._root = None
 		self._size = 0
 	
-	# 二叉查找
+	# 二分查找
 	def find(self, item):
 		
 		def recurse(node):
@@ -124,7 +124,8 @@ class BTree(object):
 		q.append(self._root)
 		btree = []
 		while q:
-			node = q.pop()
+			# dque是一个双向队列，先进先出是popleft
+			node = q.popleft()
 			btree.append(node.data)
 			if node.lft:
 				q.append(node.lft)
