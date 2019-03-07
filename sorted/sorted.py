@@ -22,6 +22,18 @@ class SimSorted:
 
         return seqs
 
+    # 插入排序
+    @staticmethod
+    def insert_sorted(seqs):
+        last_index = len(seqs)
+        for i in range(1, last_index):
+            for j in range(i, 0, -1):
+                if seqs[j] < seqs[j - 1]:
+                    seqs[j], seqs[j - 1] = seqs[j - 1], seqs[j]
+                else:
+                    break
+        return seqs
+
 
 def test_sorted(sorted_func, seq_len=10000):
     large_seq = rand_array(seq_len)
@@ -51,4 +63,5 @@ def time_consume(seq, func_name):
 
 if __name__ == '__main__':
     sim_sorted = SimSorted()
-    test_sorted(sim_sorted.selection_sorted)
+    # test_sorted(sim_sorted.selection_sorted)
+    test_sorted(sim_sorted.insert_sorted)
