@@ -29,16 +29,17 @@ class SimSorted:
         for i in range(1, last_index):
             index_j = seqs[i]
             for j in range(i, 0, -1):
-                if seqs[j] < seqs[j - 1]:
-                    seqs[j ] = seqs[j-1]
+                if index_j < seqs[j - 1]:
+                    seqs[j] = seqs[j - 1]
                 else:
                     seqs[j] = index_j
                     break
-        print(seqs)
+            else:
+                seqs[0] = index_j
         return seqs
 
 
-def test_sorted(sorted_func, seq_len=100):
+def test_sorted(sorted_func, seq_len=10000):
     large_seq = rand_array(seq_len)
     with time_consume(large_seq, sorted_func.__name__):
         sim_seq = sorted_func(large_seq)
