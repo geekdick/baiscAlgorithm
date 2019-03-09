@@ -38,6 +38,40 @@ class SimSorted:
                 seqs[0] = index_j
         return seqs
 
+    @classmethod
+    def merge_sorted(cls, seqs):
+        if len(seqs) < 2:
+            return seqs
+
+        mid = len(seqs) // 2
+        left_parts = cls.merge_sorted(seqs[:mid])
+        right_parts = cls.merge_sorted(seqs[mid:])
+        return cls.__merge(left_parts, right_parts)
+
+    @staticmethod
+    def __merge(left_parts, right_parts):
+        if not (left_parts and right_parts):
+            return left_parts or right_parts
+        len_left_parts = len(left_parts)
+        len_right_parts = len(right_parts)
+        result = []
+        left_index = 0
+        right_index = 0
+        while 1:
+            left_value = left_parts[left_index]
+            right_value = right_parts[right_index]
+            if left_value < right_value:
+                result.append(left_value)
+                left_index += 1
+            else:
+                result.append(right_value)
+                right_index += 1
+            if (left_index >= len_left_parts) or (right_index >= len_right_parts):
+                result.extend(left_parts[left_index:] or right_parts[right_index:])
+                break
+
+        return result
+
 
 def test_sorted(sorted_func, seq_len=10000):
     large_seq = rand_array(seq_len)
@@ -67,5 +101,6 @@ def time_consume(seq, func_name):
 
 if __name__ == '__main__':
     sim_sorted = SimSorted()
-    test_sorted(sim_sorted.selection_sorted)
-    test_sorted(sim_sorted.insert_sorted)
+    # test_sorted(sim_sorted.selection_sorted)
+    # test_sorted(sim_sorted.insert_sorted)
+    test_sorted(sim_sorted.merge_sorted)
