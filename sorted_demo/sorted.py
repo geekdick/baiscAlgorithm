@@ -1,12 +1,9 @@
 import random
-import time
-from contextlib import contextmanager
+
+from sorted_demo.sorted_test import SortedTest
 
 
 class SimSorted:
-
-    def __init__(self):
-        pass
 
     # 选择排序
     @staticmethod
@@ -72,35 +69,38 @@ class SimSorted:
 
         return result
 
+    @classmethod
+    def quick_sort(cls, seqs, start=None, end=None):
+        if start is None:
+            start = 0
+        if end is None:
+            end = len(seqs)
+        if start < end:
+            pivot = cls.partition(seqs, start, end)
+            cls.quick_sort(seqs, start, pivot)
+            cls.quick_sort(seqs, pivot + 1, end)
+        else:
+            return seqs
 
-def test_sorted(sorted_func, seq_len=10000):
-    large_seq = rand_array(seq_len)
-    with time_consume(large_seq, sorted_func.__name__):
-        sim_seq = sorted_func(large_seq)
-    assert sim_seq == sorted(large_seq)
+    @staticmethod
+    def partition(seqs, start, end):
+        pivot_index = start
+        rand_index = random.randrange(start, end)  # 优化，随机取标定点，以解决近乎有序的列表
+        seqs[start], seqs[rand_index] = seqs[rand_index], seqs[start]
+        pivot_val = seqs[start]
+        for index in range(start + 1, end):
+            if pivot_val > seqs[index]:
+                pivot_index += 1
+                seqs[pivot_index], seqs[index] = seqs[index], seqs[pivot_index]
 
-
-def rand_array(length, min_num=None, max_num=None):
-    if not min_num:
-        min_num = 0
-    if not max_num:
-        max_num = length
-    return [random.randrange(min_num, max_num) for _ in range(length)]
-
-
-@contextmanager
-def time_consume(seq, func_name):
-    start_time = time.time()
-    try:
-        yield
-    finally:
-        end_time = time.time()
-        consume = end_time - start_time
-    print("将长度 {} 进行 {} 排序 耗费 {}".format(len(seq), func_name, consume))
+        seqs[pivot_index], seqs[start] = seqs[start], seqs[pivot_index]
+        return pivot_index
 
 
 if __name__ == '__main__':
     sim_sorted = SimSorted()
-    # test_sorted(sim_sorted.selection_sorted)
-    # test_sorted(sim_sorted.insert_sorted)
-    test_sorted(sim_sorted.merge_sorted)
+    sorted_test = SortedTest(length=10000).sorted_test
+    # sorted_test.(sim_sorted.selection_sorted)
+    # sorted_test(sim_sorted.insert_sorted)
+    # sorted_test(sim_sorted.merge_sorted)
+    sorted_test(sim_sorted.quick_sort)
