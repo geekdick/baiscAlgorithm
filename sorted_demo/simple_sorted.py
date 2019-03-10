@@ -3,7 +3,7 @@ import random
 from sorted_demo.sorted_test import SortedTest
 
 
-class SimSorted:
+class SimpleSorted:
 
     # 选择排序
     @staticmethod
@@ -98,9 +98,9 @@ class SimSorted:
 
 
 if __name__ == '__main__':
-    sim_sorted = SimSorted()
+    sim_sorted = SimpleSorted()
     sorted_test = SortedTest(length=10000).sorted_test
     # sorted_test.(sim_sorted.selection_sorted)
     # sorted_test(sim_sorted.insert_sorted)
     # sorted_test(sim_sorted.merge_sorted)
-    sorted_test(sim_sorted.quick_sort)
+    # sorted_test(sim_sorted.quick_sort)
