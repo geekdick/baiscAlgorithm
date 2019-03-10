@@ -21,6 +21,7 @@ class SortedTest:
                     assert result == sorted(seqs)
                 else:
                     assert seqs == sorted(seqs)
+        logging.info('')
 
     def get_test_array_func(self, suffix='_array'):
         return [attr for attr in dir(self) if str(attr).endswith(suffix) and callable(getattr(self, attr))]
