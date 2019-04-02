@@ -1,5 +1,3 @@
-from collections import Iterable
-
 from linked import Node
 
 
